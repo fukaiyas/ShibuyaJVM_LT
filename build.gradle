@@ -1,0 +1,13 @@
+apply plugin: 'scala'
+
+version = '0.01'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.6'
+    compile 'org.scala-lang.modules:scala-parser-combinators_2.11:1.0.3'
+    compile 'org.scalafx:scalafx_2.11:8.0.40-R8'
+}
