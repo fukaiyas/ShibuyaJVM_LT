@@ -12,7 +12,5 @@ abstract class PageController{
 }
 
 object DefaultController extends PageController {
-  override def action(num: Int): Unit = {
-    JvmLtPresentation.next()
-  }
+  override def action(actionCount: Int): Unit = JvmLtPresentation.next()
 }
