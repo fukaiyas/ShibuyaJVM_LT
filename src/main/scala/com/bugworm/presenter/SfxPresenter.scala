@@ -4,14 +4,31 @@ import javafx.fxml.FXMLLoader
 
 import scalafx.Includes._
 import scalafx.scene.Scene
-import scalafx.scene.input.{KeyCode, KeyEvent}
-import scalafx.scene.layout.StackPane
-import scalafx.scene.paint.Color
-import scalafx.stage.{StageStyle, Stage}
+import scalafx.scene.input._
+import scalafx.scene.layout.{Pane, StackPane}
+import scalafx.scene.paint.{Color, Paint}
+import scalafx.scene.shape._
+import scalafx.stage.{Stage, StageStyle}
 
-class SfxPresenter(val stage : Stage, val pages : Array[String]) {
+class SfxPresenter(
+  val stage : Stage, 
+  val pages : Array[String], 
+  val slideWidth : Double, 
+  val slideHeight : Double,
+  val fill : Paint) {
 
-  val rootPane = new StackPane()
+  def this(stage : Stage, pages : Array[String]) = this(stage, pages, 1024, 768, Color(0, 0, 0, 0))
+
+  val drawView = new Pane(){
+    prefWidth = slideWidth
+    prefHeight = slideHeight
+    children = Polygon(0, 0, 32, 0, 0, 32)
+    visible = false
+  }
+
+  val rootPane = new StackPane(){
+    children = drawView
+  }
 
   var controller : PageController = _
 
@@ -19,9 +36,13 @@ class SfxPresenter(val stage : Stage, val pages : Array[String]) {
 
   var actionCount = 0
 
+  var drawing : Option[Path] = None
+
   stage.initStyle(StageStyle.TRANSPARENT)
-  stage.scene = new Scene(rootPane, 1024, 768, Color(0, 0, 1, 0.01)){  //TODO サイズと背景色は指定可能にする
+  stage.scene = new Scene(rootPane, slideWidth, slideHeight, fill){
     onKeyPressed = handleKeyEvent _
+    onTouchMoved = handleTouchMoved _
+    onSwipeDown = handleSwipeDown _
   }
   load()
 
@@ -33,9 +54,13 @@ class SfxPresenter(val stage : Stage, val pages : Array[String]) {
     controller.targetNode = node
     controller.init()
     actionCount = 0
-    rootPane.onMouseClicked = handle{
-      actionCount += 1
-      controller.action(actionCount)
+    rootPane.onMouseClicked = {event : MouseEvent =>
+      event.clickCount match {
+        case 2 =>
+          actionCount += 1
+          controller.action(actionCount)
+        case _ =>
+      }
     }
   }
 
@@ -56,5 +81,39 @@ class SfxPresenter(val stage : Stage, val pages : Array[String]) {
       case KeyCode.RIGHT => next()
       case _ =>
     }
+  }
+
+  def handleSwipeDown(event : SwipeEvent) : Unit = {
+    event.touchCount match {
+      case 2 => drawing match {
+        case None =>
+          drawing = Option(new Path(){
+            stroke = Color.Red
+            strokeWidth = 12
+            strokeLineCap = StrokeLineCap.ROUND
+          })
+          drawView.children.add(drawing.get)
+          drawView.visible = true
+        case Some(p) =>
+          drawView.visible = false
+          drawView.children.remove(p)
+          drawing = None
+      }
+      case 4 => stage.close()
+      case _ =>
+    }
+  }
+
+  def handleTouchMoved(event : TouchEvent) : Unit = {
+    if(event.touchCount != 1){
+      return
+    }
+    drawing.foreach(p =>
+      if(p.elements.isEmpty){
+        p.elements.add(MoveTo(event.touchPoint.getX, event.touchPoint.getY))
+      }else{
+        p.elements.add(LineTo(event.touchPoint.getX, event.touchPoint.getY))
+      }
+    )
   }
 }
