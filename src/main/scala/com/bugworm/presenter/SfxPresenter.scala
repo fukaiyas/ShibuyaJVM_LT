@@ -105,15 +105,18 @@ class SfxPresenter(
   }
 
   def handleTouchMoved(event : TouchEvent) : Unit = {
-    if(event.touchCount != 1){
-      return
+    event.touchCount match {
+      case 1 =>
+        val tp = event.touchPoint
+        drawing.foreach(p => {
+          p.elements.add(
+            if (p.elements.isEmpty)
+              MoveTo(tp.getX, tp.getY)
+            else
+              LineTo(tp.getX, tp.getY)
+          )
+        })
+      case _ =>
     }
-    drawing.foreach(p =>
-      if(p.elements.isEmpty){
-        p.elements.add(MoveTo(event.touchPoint.getX, event.touchPoint.getY))
-      }else{
-        p.elements.add(LineTo(event.touchPoint.getX, event.touchPoint.getY))
-      }
-    )
   }
 }
