@@ -1,6 +1,7 @@
 package com.bugworm.presenter
 
 import javafx.fxml.FXMLLoader
+import javafx.scene.Node
 
 import scalafx.Includes._
 import scalafx.scene.Scene
@@ -30,7 +31,7 @@ class SfxPresenter(
     children = drawView
   }
 
-  var controller : PageController = _
+  var actionProxy : ActionProxy = new DefaultControllerProxy()
 
   var currentPage = 0
 
@@ -49,16 +50,17 @@ class SfxPresenter(
   def load() : Unit = {
     val loader = new FXMLLoader(getClass.getResource(pages(currentPage)))
     val node = loader.load[javafx.scene.Node]()
-    controller = Option(loader.getController[PageController]()).getOrElse(DefaultController)
+    val controller = Option(loader.getController[PageController]()).getOrElse(DefaultController)
     controller.presenter = this
     controller.targetNode = node
-    controller.init()
+    actionProxy.controller = controller
+    actionProxy.init()
     actionCount = 0
     rootPane.onMouseClicked = {event : MouseEvent =>
       event.clickCount match {
         case 2 =>
           actionCount += 1
-          controller.action(actionCount)
+          actionProxy.action(actionCount)
         case _ =>
       }
     }
@@ -66,7 +68,7 @@ class SfxPresenter(
 
   def moveTo(page : Int) : Unit = {
     if(pages.isDefinedAt(page)){
-      controller.dispose()
+      actionProxy.dispose()
       currentPage = page
       load()
     }
@@ -119,4 +121,22 @@ class SfxPresenter(
       case _ =>
     }
   }
+}
+
+trait ActionProxy{
+  def controller_=(pageController : PageController) : Unit
+  def controller : PageController
+
+  def init() : Unit
+  def action(num: Int) : Unit
+  def dispose() : Unit
+}
+class DefaultControllerProxy extends ActionProxy{
+  var target : PageController = _
+  def controller_=(pageController : PageController) : Unit = target = pageController
+  def controller : PageController = target
+
+  override def init(): Unit = target.init()
+  override def action(num: Int): Unit = target.action(num)
+  override def dispose(): Unit = target.dispose()
 }
