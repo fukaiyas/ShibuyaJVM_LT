@@ -7,8 +7,13 @@ import scalafx.application.JFXApp.PrimaryStage
 
 object JvmLtPresentation extends JFXApp{
 
-  //TODO
-  val pages = Array("/001_title.fxml", "/002.fxml", "/003.fxml", "/004.fxml")
+  val pages = Array(
+    "/001_title.fxml",
+    "/002_agenda.fxml",
+    "/003_basic.fxml",
+    "/004_parser.fxml",
+    "/005_bnf.fxml",
+    "/006_scalafx.fxml")
 
   new SfxPresenter(new PrimaryStage(), pages)
 }

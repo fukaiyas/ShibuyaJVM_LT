@@ -4,7 +4,7 @@ abstract class PageController{
   var presenter : SfxPresenter = _
   var targetNode : javafx.scene.Node = _
   def init() : Unit = {
-    presenter.rootPane.children.add(targetNode)
+    presenter.rootPane.children.add(0, targetNode)
   }
   def action(num : Int) : Unit
   def dispose(): Unit = {

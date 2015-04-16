@@ -7,17 +7,22 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #ddffee;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="58.0" layoutY="67.0" prefHeight="98.0" prefWidth="919.0" text="Scala の Parser Combinator で" textFill="#6666ff">
+      <Label layoutX="58.0" layoutY="67.0" prefHeight="98.0" prefWidth="919.0" text="渋谷JVM、参加枠埋まってる" textFill="#6666ff">
          <font>
             <Font name="System Bold" size="48.0" />
          </font>
       </Label>
-      <Label alignment="CENTER_RIGHT" layoutX="342.0" layoutY="626.0" prefHeight="98.0" prefWidth="647.0" text="深井 康行 @fukai_yas" textAlignment="RIGHT" textFill="#6666ff">
+      <Label layoutX="58.0" layoutY="177.0" prefHeight="98.0" prefWidth="919.0" text="→ しょうがないからキャンセル待ちか．．．" textFill="#6666ff">
          <font>
             <Font name="System Bold" size="48.0" />
          </font>
       </Label>
-      <Label alignment="CENTER_RIGHT" layoutX="58.0" layoutY="165.0" prefHeight="98.0" prefWidth="919.0" text="JVM言語?を作ってみる" textFill="#6666ff">
+      <Label layoutX="53.0" layoutY="294.0" prefHeight="98.0" prefWidth="919.0" text="→ あれ、LT枠なら参加できるじゃん！" textFill="#6666ff">
+         <font>
+            <Font name="System Bold" size="48.0" />
+         </font>
+      </Label>
+      <Label layoutX="53.0" layoutY="420.0" prefHeight="98.0" prefWidth="919.0" text="→ LT枠で登録しちゃえ！（※酔っていた）" textFill="#6666ff">
          <font>
             <Font name="System Bold" size="48.0" />
          </font>

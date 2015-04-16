@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #ddffee;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="58.0" layoutY="67.0" prefHeight="98.0" prefWidth="919.0" text="Parser Combinator" textFill="#6666ff">
+         <font>
+            <Font name="System Bold" size="48.0" />
+         </font>
+      </Label>
+      <Label layoutX="58.0" layoutY="165.0" prefHeight="98.0" prefWidth="919.0" text="・Scala2.10までは標準ライブラリ、2.11から別のjarに分離">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="58.0" layoutY="263.0" prefHeight="98.0" prefWidth="919.0" text="・割と簡単？に構文解析ができる">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <TextArea editable="false" layoutX="58.0" layoutY="525.0" prefHeight="147.0" prefWidth="902.0" text="dependencies {&#10;    compile 'org.scala-lang:scala-library:2.11.6'&#10;    compile 'org.scala-lang.modules:scala-parser-combinators_2.11:1.0.3'&#10;}&#10;">
+         <font>
+            <Font name="Monospaced Regular" size="20.0" />
+         </font>
+      </TextArea>
+      <Label layoutX="58.0" layoutY="457.0" prefHeight="68.0" prefWidth="919.0" text="例：gradleだとこんな感じ">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
