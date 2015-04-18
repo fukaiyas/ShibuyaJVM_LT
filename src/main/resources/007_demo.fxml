@@ -5,12 +5,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bugworm.jvmlt.controller.Demo">
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #ddffee;">
          <children>
-            <Label alignment="CENTER" layoutX="53.0" layoutY="40.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="69.0" prefWidth="919.0" text="DEMO" textFill="#6666ff">
+            <Label alignment="CENTER" layoutX="53.0" layoutY="40.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="69.0" prefWidth="919.0" text="最後にデモ" textFill="#6666ff">
                <font>
                   <Font name="System Bold" size="48.0" />
                </font>

@@ -34,7 +34,6 @@ class ScreenIO(val model : ScreenModel) extends Io{
   }
 
   def stick(n : BigDecimal) : BigDecimal = {
-    //TODO nは本当はデバイスの指定に使いたい
     val m = new Array[Boolean](4)
     for(i <- 0 until m.length)m(i) = keys(i) | keysupdate(i)
     m match {

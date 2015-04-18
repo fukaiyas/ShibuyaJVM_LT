@@ -25,7 +25,7 @@ class Demo extends PageController with Initializable{
         code.setVisible(false)
         BasicView.start()
       }
-      case _ => presenter.next()
+      case _ => presenter.moveTo(presenter.currentPage + 1)
     }
   }
 

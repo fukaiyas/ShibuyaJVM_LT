@@ -21,7 +21,6 @@ class ScreenModel {
         text(cursorX.value)(cursorY.value).value = c.toString
         addX()
     }
-    println(st);
   }
 
   def newLine(){

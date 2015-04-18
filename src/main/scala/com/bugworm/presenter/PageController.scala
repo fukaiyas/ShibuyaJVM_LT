@@ -13,5 +13,5 @@ abstract class PageController{
 }
 
 object DefaultController extends PageController {
-  override def action(actionCount: Int): Unit = presenter.next()
+  override def action(actionCount: Int): Unit = presenter.moveTo(presenter.currentPage + 1)
 }

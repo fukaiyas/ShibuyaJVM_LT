@@ -3,6 +3,8 @@ package com.bugworm.presenter
 import javafx.fxml.FXMLLoader
 import javafx.scene.Node
 
+import com.bugworm.presenter.ws.{ChildProxy, MasterProxy}
+
 import scalafx.Includes._
 import scalafx.scene.Scene
 import scalafx.scene.input._
@@ -31,7 +33,11 @@ class SfxPresenter(
     children = drawView
   }
 
-  var actionProxy : ActionProxy = new DefaultControllerProxy()
+  var actionProxy : ActionProxy = System.getProperty("action.proxy") match {
+    case "master" => new MasterProxy()
+    case "child" => new ChildProxy()
+    case _ => new ActionProxy()
+  }
 
   var currentPage = 0
 
@@ -39,16 +45,17 @@ class SfxPresenter(
 
   var lines : Option[Path] = None
   
-  var drawing = false;
+  var drawing = false
 
+  actionProxy.presenter = this
   stage.initStyle(StageStyle.TRANSPARENT)
   stage.scene = new Scene(rootPane, slideWidth, slideHeight, fill){
     onKeyPressed = handleKeyEvent _
-    onTouchMoved = handleTouchMoved _
-    onTouchReleased = handleTouchReleased _
+    onTouchMoved =(e : TouchEvent) => actionProxy.handleTouchMoved(currentPage, e)
+    onTouchReleased = handle{actionProxy.handleTouchReleased(currentPage)}
     onSwipeLeft = handleSwipeLeft _
     onSwipeRight = handleSwipeRight _
-    onSwipeDown = handleSwipeDown _
+    onSwipeDown = (e : SwipeEvent) => actionProxy.handleSwipeDown(currentPage, e)
   }
   load()
 
@@ -56,17 +63,16 @@ class SfxPresenter(
     val loader = new FXMLLoader(getClass.getResource(pages(currentPage)))
     val node = loader.load[javafx.scene.Node]()
     val controller = Option(loader.getController[PageController]()).getOrElse(DefaultController)
-    println(controller.toString)
     controller.presenter = this
     controller.targetNode = node
     actionProxy.controller = controller
-    actionProxy.init()
+    actionProxy.controller.init()
     actionCount = 0
     rootPane.onMouseClicked = {event : MouseEvent =>
       event.clickCount match {
         case 2 =>
           actionCount += 1
-          actionProxy.action(actionCount)
+          actionProxy.action(currentPage, actionCount)
         case _ =>
       }
     }
@@ -74,13 +80,15 @@ class SfxPresenter(
 
   def moveTo(page : Int) : Unit = {
     if(pages.isDefinedAt(page)){
-      actionProxy.dispose()
+      println("::::::moveto")
+      actionProxy.controller.dispose()
       currentPage = page
       load()
     }
   }
-  def next() : Unit = moveTo(currentPage + 1)
-  def prev() : Unit = moveTo(currentPage - 1)
+
+  def next() : Unit = actionProxy.moveTo(currentPage + 1)
+  def prev() : Unit = actionProxy.moveTo(currentPage - 1)
 
   def handleKeyEvent(event : KeyEvent) : Unit = {
     event.code match {
@@ -103,8 +111,9 @@ class SfxPresenter(
       case _ =>
     }
   }
-  def handleSwipeDown(event : SwipeEvent) : Unit = {
-    event.touchCount match {
+  def handleSwipeDown(touchCount : Int) : Unit = {
+    println("Swipedown")
+    touchCount match {
       case 2 => lines match {
         case None =>
           lines = Option(new Path(){
@@ -124,16 +133,15 @@ class SfxPresenter(
     }
   }
 
-  def handleTouchMoved(event : TouchEvent) : Unit = {
-    event.touchCount match {
+  def handleTouchMoved(touchCount : Int, touchX : Double, touchY : Double) : Unit = {
+    touchCount match {
       case 1 =>
-        val tp = event.touchPoint
         lines.foreach(p => {
           p.elements.add(
             if (drawing)
-              LineTo(tp.getX, tp.getY)
+              LineTo(touchX, touchY)
             else
-              MoveTo(tp.getX, tp.getY)
+              MoveTo(touchX, touchY)
           )
           drawing = true
         })
@@ -141,25 +149,23 @@ class SfxPresenter(
     }
   }
 
-  def handleTouchReleased(event : TouchEvent) : Unit = {
+  def handleTouchReleased() : Unit = {
     drawing = false
   }
 }
 
-trait ActionProxy{
-  def controller_=(pageController : PageController) : Unit
-  def controller : PageController
-
-  def init() : Unit
-  def action(num: Int) : Unit
-  def dispose() : Unit
-}
-class DefaultControllerProxy extends ActionProxy{
+class ActionProxy{
+  var sfxpr : SfxPresenter = _
+  def presenter_=(pr : SfxPresenter) : Unit = sfxpr = pr
+  def presenter : SfxPresenter = sfxpr
   var target : PageController = _
   def controller_=(pageController : PageController) : Unit = target = pageController
   def controller : PageController = target
 
-  override def init(): Unit = target.init()
-  override def action(num: Int): Unit = target.action(num)
-  override def dispose(): Unit = target.dispose()
+  def action(page : Int, num : Int) : Unit = target.action(num)
+  def moveTo(page : Int) : Unit = presenter.moveTo(page)
+  def handleTouchReleased(page : Int) : Unit = presenter.handleTouchReleased()
+  def handleTouchMoved(page : Int, event : TouchEvent) : Unit = presenter.handleTouchMoved(event.touchCount, event.touchPoint.getX, event.touchPoint.getY)
+  def handleSwipeDown(page : Int, event : SwipeEvent) : Unit = presenter.handleSwipeDown(event.touchCount)
+  //TODO handleSwipeDown
 }

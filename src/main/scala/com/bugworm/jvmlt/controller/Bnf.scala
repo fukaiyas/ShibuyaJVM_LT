@@ -35,7 +35,7 @@ class Bnf extends PageController with Initializable {
         src.setVisible(true)
       }
       case 2 => rect.setVisible(true)
-      case _ => presenter.next()
+      case _ => presenter.moveTo(presenter.currentPage + 1)
     }
   }
 }
