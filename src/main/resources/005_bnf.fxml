@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #ddffee;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #ddffee;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bugworm.jvmlt.controller.Bnf">
    <children>
-      <Label layoutX="14.0" layoutY="156.0" prefHeight="76.0" prefWidth="998.0" text="    expr   ::= term {&quot;+&quot; term | &quot;-&quot; term}.">
+      <Label fx:id="bnf1" layoutX="14.0" layoutY="156.0" prefHeight="76.0" prefWidth="998.0" text="    expr   ::= term {&quot;+&quot; term | &quot;-&quot; term}.">
          <font>
             <Font name="Monospaced Bold Italic" size="32.0" />
          </font>
@@ -17,12 +18,12 @@
             <Font name="System Bold" size="48.0" />
          </font>
       </Label>
-      <Label layoutX="14.0" layoutY="232.0" prefHeight="76.0" prefWidth="998.0" text="    term   ::= factor {&quot;*&quot; factor | &quot;/&quot; factor}.">
+      <Label fx:id="bnf2" layoutX="14.0" layoutY="232.0" prefHeight="76.0" prefWidth="998.0" text="    term   ::= factor {&quot;*&quot; factor | &quot;/&quot; factor}.">
          <font>
             <Font name="Monospaced Bold Italic" size="32.0" />
          </font>
       </Label>
-      <Label layoutX="14.0" layoutY="308.0" prefHeight="76.0" prefWidth="998.0" text="    factor ::= floatingPointNumber | &quot;(&quot; expr &quot;)&quot;.">
+      <Label fx:id="bnf3" layoutX="14.0" layoutY="308.0" prefHeight="76.0" prefWidth="998.0" text="    factor ::= floatingPointNumber | &quot;(&quot; expr &quot;)&quot;.">
          <font>
             <Font name="Monospaced Bold Italic" size="32.0" />
          </font>
@@ -32,10 +33,26 @@
             <Font size="32.0" />
          </font>
       </Label>
-      <Label layoutX="13.0" layoutY="489.0" prefHeight="76.0" prefWidth="998.0" text="def expr:Parser[Any]=term~rep(&quot;+&quot;~term | &quot;-&quot;~term)">
+      <Label fx:id="src" layoutX="13.0" layoutY="489.0" prefHeight="76.0" prefWidth="998.0" text="def expr:Parser[Any]=term~rep(&quot;+&quot;~term | &quot;-&quot;~term)">
          <font>
             <Font name="Monospaced Bold" size="32.0" />
          </font>
       </Label>
+      <Pane fx:id="rect" prefHeight="629.0" prefWidth="1024.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="58.0" layoutX="63.0" layoutY="169.0" stroke="#f50707" strokeType="INSIDE" strokeWidth="5.0" width="151.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="58.0" layoutX="225.0" layoutY="169.0" stroke="#f50707" strokeType="INSIDE" strokeWidth="5.0" width="68.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="58.0" layoutX="299.0" layoutY="169.0" stroke="#f50707" strokeType="INSIDE" strokeWidth="5.0" width="100.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="58.0" layoutX="6.0" layoutY="503.0" stroke="#f50707" strokeType="INSIDE" strokeWidth="5.0" width="165.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="58.0" layoutX="165.0" layoutY="503.0" stroke="#f50707" strokeType="INSIDE" strokeWidth="5.0" width="254.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="58.0" layoutX="413.0" layoutY="503.0" stroke="#f50707" strokeType="INSIDE" strokeWidth="5.0" width="100.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="58.0" layoutX="419.0" layoutY="169.0" stroke="#f50707" strokeType="INSIDE" strokeWidth="5.0" width="157.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="58.0" layoutX="632.0" layoutY="169.0" stroke="#f50707" strokeType="INSIDE" strokeWidth="5.0" width="157.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="58.0" layoutX="589.0" layoutY="503.0" stroke="#f50707" strokeType="INSIDE" strokeWidth="5.0" width="157.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="58.0" layoutX="800.0" layoutY="503.0" stroke="#f50707" strokeType="INSIDE" strokeWidth="5.0" width="157.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="83.0" layoutX="398.0" layoutY="154.0" stroke="#3a07f5" strokeType="INSIDE" strokeWidth="5.0" width="413.0" />
+            <Rectangle arcHeight="5.0" arcWidth="20.0" fill="#ff212100" height="83.0" layoutX="512.0" layoutY="491.0" stroke="#3a07f5" strokeType="INSIDE" strokeWidth="5.0" width="459.0" />
+         </children>
+      </Pane>
    </children>
 </Pane>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bugworm.jvmlt.controller.Demo">
+   <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #ddffee;">
+         <children>
+            <Label alignment="CENTER" layoutX="53.0" layoutY="40.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="69.0" prefWidth="919.0" text="DEMO" textFill="#6666ff">
+               <font>
+                  <Font name="System Bold" size="48.0" />
+               </font>
+            </Label>
+            <Pane fx:id="demoPane" layoutX="192.0" layoutY="204.0" prefHeight="400.0" prefWidth="640.0" style="-fx-background-color: #000000;" />
+         </children>
+      </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <TextArea fx:id="code" editable="false" layoutX="61.0" layoutY="127.0" prefHeight="572.0" prefWidth="902.0" text="&#10;10 REM **************&#10;20 REM ** サンプル **&#10;30 REM **************&#10;100 X = 5&#10;105 Y = 0&#10;106 VX = 1&#10;107 VY = 1&#10;110 CYCLE 100&#10;130 SYNC 1&#10;250 LOCATE X, Y&#10;260 PRINT &quot;    &quot;&#10;300 IF X = 36 THEN VX = -1&#10;310 IF X = 0 THEN VX = 1&#10;320 IF Y = 24 THEN VY = -1&#10;330 IF Y = 0 THEN VY = 1&#10;600 X = X + VX&#10;610 Y = Y + VY&#10;650 LOCATE X, Y&#10;660 PRINT &quot;（＾＾）&quot;&#10;670 GOTO 130&#10;">
+               <font>
+                  <Font name="Monospaced Regular" size="20.0" />
+               </font>
+            </TextArea>
+         </children>
+      </Pane>
+   </children>
+</StackPane>

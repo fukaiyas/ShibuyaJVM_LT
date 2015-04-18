@@ -16,7 +16,7 @@ object BasicEngine extends RegexParsers{
 
   def lines : Parser[List[Line]] =  rep(line)
 
-  def line : Parser[Line] = "^[1-9][0-9]{0,7}".r~operation ^^ {case ln~ope => (new Line(ln.toInt, ope))}
+  def line : Parser[Line] = "^[1-9][0-9]{0,7}".r~operation ^^ {case ln~ope => new Line(ln.toInt, ope)}
 
   def operation : Parser[Operation] =
     "(REM|').*".r ^^^ Operation.nop |
@@ -62,13 +62,13 @@ object BasicEngine extends RegexParsers{
     }
   }
 
-  def value : Parser[Value[Any]] = strexpr | strval | numexpr | numval | boolval;
+  def value : Parser[Value[Any]] = strexpr | strval | numexpr | numval | boolval
 
   def strval : Parser[Value[String]] = strfn | strvar | str
 
   def strfn : Parser[Function[String]] =
     "(?i)STR\\$\\(".r~>numexpr<~"\\)".r ^^ (n => new Function[String]{
-      def apply(runtime : BasicRuntime) = n(runtime).toString
+      def apply(runtime : BasicRuntime) = n(runtime).toString()
     }) |
     "(?i)SCREEN\\$\\(".r~>numexpr~","~numexpr<~"\\)".r ^^ {
       case x~c~y => new Function[String]{
@@ -79,14 +79,14 @@ object BasicEngine extends RegexParsers{
     }
 
   def strvar : Parser[Var[String]] = "[A-Za-z][A-Za-z0-9_]*\\$".r ^^ (new Var[String](_){
-    def apply(runtime : BasicRuntime) = runtime.strVars.getOrElse(name, "");
+    def apply(runtime : BasicRuntime) = runtime.strVars.getOrElse(name, "")
   })
 
   def str : Parser[Const[String]] = """"[^\"]*"""".r ^^ (s => new Const[String](s.tail.init))
 
   //数値系
   def numexpr : Parser[Value[BigDecimal]] = numterm~rep("+"~numterm | "-"~numterm) ^^ {
-    case n~nums => {
+    case n~nums =>
       new Value[BigDecimal]{
         def apply(runtime : BasicRuntime) = {
           var v = n(runtime)
@@ -97,11 +97,10 @@ object BasicEngine extends RegexParsers{
           v
         }
       }
-    }
   }
 
   def numterm : Parser[Value[BigDecimal]] = numval~rep("*"~numval | "/"~numval) ^^ {
-    case n~nums => {
+    case n~nums =>
       new Value[BigDecimal]{
         def apply(runtime : BasicRuntime) = {
           var v = n(runtime)
@@ -112,7 +111,6 @@ object BasicEngine extends RegexParsers{
           v
         }
       }
-    }
   }
 
   def numval : Parser[Value[BigDecimal]] = numfn | numvar | num
@@ -128,30 +126,28 @@ object BasicEngine extends RegexParsers{
     }
 
   def numvar : Parser[Var[BigDecimal]] = "[A-Za-z][A-Za-z0-9_]*".r ^^ (new Var[BigDecimal](_){
-    def apply(runtime : BasicRuntime) = runtime.decimalVars.getOrElse(name, BigDecimal(0));
+    def apply(runtime : BasicRuntime) = runtime.decimalVars.getOrElse(name, BigDecimal(0))
   })
 
-  def num : Parser[Const[BigDecimal]] = """(\d+(\.\d*)?|\d*\.\d+)""".r ^^ (n => new Const[BigDecimal](BigDecimal(n)))
+  def num : Parser[Const[BigDecimal]] = """-?(\d+(\.\d*)?|\d*\.\d+)""".r ^^ (n => new Const[BigDecimal](BigDecimal(n)))
 
   //boolean
   def boolexpr : Parser[Value[Boolean]] = boolterm~rep("OR"~>boolterm) ^^ {
-    case b~bools => {
+    case b~bools =>
       new Value[Boolean]{
         def apply(runtime : BasicRuntime) = {
           (b(runtime) /: bools.map(_(runtime)))(_ || _ )
         }
       }
-    }
   }
 
   def boolterm : Parser[Value[Boolean]] = boolval~rep("AND"~>boolval) ^^ {
-    case b~bools => {
+    case b~bools =>
       new Value[Boolean]{
         def apply(runtime : BasicRuntime) = {
           (b(runtime) /: bools.map(_(runtime)))(_ && _ )
         }
       }
-    }
   }
 
   def boolval : Parser[Value[Boolean]] = boolfn | boolvar | bool
@@ -183,7 +179,7 @@ object BasicEngine extends RegexParsers{
       }
 
   def boolvar : Parser[Var[Boolean]] = "[A-Za-z][A-Za-z0-9_]*\\?".r ^^ (new Var[Boolean](_){
-    def apply(runtime : BasicRuntime) = runtime.booleanVars.getOrElse(name, false);
+    def apply(runtime : BasicRuntime) = runtime.booleanVars.getOrElse(name, false)
   })
 
   def bool : Parser[Const[Boolean]] = "(?i)true|false".r ^^ (n => new Const[Boolean](n.equalsIgnoreCase("true")))

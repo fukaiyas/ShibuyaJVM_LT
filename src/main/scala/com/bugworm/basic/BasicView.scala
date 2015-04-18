@@ -17,6 +17,8 @@ object BasicView {
   val model = new ScreenModel
   val sio = new ScreenIO(model)
 
+  var runtime : BasicRuntime = _
+
   def create() : Pane = {
 
     val textscreen = new GridPane(){
@@ -61,7 +63,7 @@ object BasicView {
 
   def start() : Unit = {
     val reader = new InputStreamReader(new FileInputStream("Sample.basic"), "UTF-8")
-    val runtime = new BasicRuntime(BasicEngine.parse(reader).get)
+    runtime = new BasicRuntime(BasicEngine.parse(reader).get)
     runtime.io = sio
     reader.close()
     runtime.cycle(BigDecimal.valueOf(50))

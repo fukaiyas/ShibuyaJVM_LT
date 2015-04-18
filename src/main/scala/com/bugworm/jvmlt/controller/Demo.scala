@@ -12,14 +12,29 @@ class Demo extends PageController with Initializable{
   @FXML
   var demoPane : javafx.scene.layout.Pane = _
 
+  @FXML
+  var code : javafx.scene.control.TextArea = _
+
   override def initialize(location : URL, resources : ResourceBundle) : Unit = {
     demoPane.getChildren.add(BasicView.create())
   }
 
   override def action(actionCount: Int): Unit = {
     actionCount match {
-      case 0 => BasicView.start()
+      case 1 => {
+        code.setVisible(false)
+        BasicView.start()
+      }
       case _ => presenter.next()
+    }
+  }
+
+  override def dispose(): Unit = {
+    presenter.rootPane.children.remove(targetNode)
+    try{
+      BasicView.runtime.terminated = true;
+    }catch{
+      case e : Exception => e.printStackTrace()
     }
   }
 }

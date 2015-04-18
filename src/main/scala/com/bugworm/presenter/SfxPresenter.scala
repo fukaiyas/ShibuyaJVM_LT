@@ -37,12 +37,17 @@ class SfxPresenter(
 
   var actionCount = 0
 
-  var drawing : Option[Path] = None
+  var lines : Option[Path] = None
+  
+  var drawing = false;
 
   stage.initStyle(StageStyle.TRANSPARENT)
   stage.scene = new Scene(rootPane, slideWidth, slideHeight, fill){
     onKeyPressed = handleKeyEvent _
     onTouchMoved = handleTouchMoved _
+    onTouchReleased = handleTouchReleased _
+    onSwipeLeft = handleSwipeLeft _
+    onSwipeRight = handleSwipeRight _
     onSwipeDown = handleSwipeDown _
   }
   load()
@@ -60,8 +65,8 @@ class SfxPresenter(
     rootPane.onMouseClicked = {event : MouseEvent =>
       event.clickCount match {
         case 2 =>
-          actionProxy.action(actionCount)
           actionCount += 1
+          actionProxy.action(actionCount)
         case _ =>
       }
     }
@@ -86,21 +91,33 @@ class SfxPresenter(
     }
   }
 
+  def handleSwipeLeft(event : SwipeEvent) : Unit = {
+    event.touchCount match {
+      case 2 => next()
+      case _ =>
+    }
+  }
+  def handleSwipeRight(event : SwipeEvent) : Unit = {
+    event.touchCount match {
+      case 2 => prev()
+      case _ =>
+    }
+  }
   def handleSwipeDown(event : SwipeEvent) : Unit = {
     event.touchCount match {
-      case 2 => drawing match {
+      case 2 => lines match {
         case None =>
-          drawing = Option(new Path(){
+          lines = Option(new Path(){
             stroke = Color.Red
             strokeWidth = 12
             strokeLineCap = StrokeLineCap.ROUND
           })
-          drawView.children.add(drawing.get)
+          drawView.children.add(lines.get)
           drawView.visible = true
         case Some(p) =>
           drawView.visible = false
           drawView.children.remove(p)
-          drawing = None
+          lines = None
       }
       case 4 => stage.close()
       case _ =>
@@ -111,16 +128,21 @@ class SfxPresenter(
     event.touchCount match {
       case 1 =>
         val tp = event.touchPoint
-        drawing.foreach(p => {
+        lines.foreach(p => {
           p.elements.add(
-            if (p.elements.isEmpty)
-              MoveTo(tp.getX, tp.getY)
-            else
+            if (drawing)
               LineTo(tp.getX, tp.getY)
+            else
+              MoveTo(tp.getX, tp.getY)
           )
+          drawing = true
         })
       case _ =>
     }
+  }
+
+  def handleTouchReleased(event : TouchEvent) : Unit = {
+    drawing = false
   }
 }
 
