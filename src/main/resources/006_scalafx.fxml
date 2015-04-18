@@ -27,7 +27,7 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Label alignment="CENTER_RIGHT" layoutX="68.0" layoutY="536.0" prefHeight="98.0" prefWidth="919.0" text="→ 今回はオレオレBASICランタイムの画面出力を担当">
+      <Label alignment="CENTER_RIGHT" layoutX="68.0" layoutY="603.0" prefHeight="98.0" prefWidth="919.0" text="→ 今回はオレオレBASICランタイムの画面出力を担当">
          <font>
             <Font size="36.0" />
          </font>

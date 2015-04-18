@@ -51,6 +51,7 @@ class SfxPresenter(
     val loader = new FXMLLoader(getClass.getResource(pages(currentPage)))
     val node = loader.load[javafx.scene.Node]()
     val controller = Option(loader.getController[PageController]()).getOrElse(DefaultController)
+    println(controller.toString)
     controller.presenter = this
     controller.targetNode = node
     actionProxy.controller = controller
@@ -59,8 +60,8 @@ class SfxPresenter(
     rootPane.onMouseClicked = {event : MouseEvent =>
       event.clickCount match {
         case 2 =>
-          actionCount += 1
           actionProxy.action(actionCount)
+          actionCount += 1
         case _ =>
       }
     }

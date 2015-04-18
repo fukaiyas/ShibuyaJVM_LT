@@ -12,12 +12,12 @@
             <Font name="System Bold" size="48.0" />
          </font>
       </Label>
-      <Label layoutX="58.0" layoutY="165.0" prefHeight="98.0" prefWidth="919.0" text="・Scala2.10までは標準ライブラリ、2.11から別のjarに分離">
+      <Label layoutX="58.0" layoutY="270.0" prefHeight="98.0" prefWidth="919.0" text="・Scala2.10までは標準ライブラリ、2.11から別のjarに分離">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Label layoutX="58.0" layoutY="263.0" prefHeight="98.0" prefWidth="919.0" text="・割と簡単？に構文解析ができる">
+      <Label layoutX="58.0" layoutY="172.0" prefHeight="98.0" prefWidth="919.0" text="・割と簡単？に構文解析ができる">
          <font>
             <Font size="36.0" />
          </font>
@@ -27,7 +27,7 @@
             <Font name="Monospaced Regular" size="20.0" />
          </font>
       </TextArea>
-      <Label layoutX="58.0" layoutY="457.0" prefHeight="68.0" prefWidth="919.0" text="例：gradleだとこんな感じ">
+      <Label layoutX="58.0" layoutY="457.0" prefHeight="68.0" prefWidth="919.0" text="例：gradleだとこんな感じで使えます">
          <font>
             <Font size="36.0" />
          </font>
