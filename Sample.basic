@@ -1,0 +1,20 @@
+10 REM **************
+20 REM ** サンプル **
+30 REM **************
+100 X = 5
+105 Y = 0
+106 VX = 1
+107 VY = 1
+110 CYCLE 100
+130 SYNC 1
+250 LOCATE X, Y
+260 PRINT "    "
+300 IF X = 36 THEN VX = -1
+310 IF X = 0 THEN VX = 1
+320 IF Y = 24 THEN VY = -1
+330 IF Y = 0 THEN VY = 1
+600 X = X + VX
+610 Y = Y + VY
+650 LOCATE X, Y
+660 PRINT "（＾＾）"
+670 GOTO 130
